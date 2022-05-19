@@ -1,0 +1,7 @@
+version: '3'
+services:
+  ddl:
+    build: .
+    image: kawamanza/active-ddl
+    volumes:
+    - .:/usr/src/active-ddl
