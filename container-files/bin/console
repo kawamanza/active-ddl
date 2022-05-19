@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'irb'
+require 'erb'
+require 'logger'
+ENV['RACK_ENV'] = ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'development'
+ENV['RAILS_ENV'] = ENV['RAILS_ENV'] || ENV['RACK_ENV']
+Bundler.setup(:default, ENV['RAILS_ENV'])
+Bundler.require
+
+# Set autoloading directories
+ActiveSupport::Dependencies.autoload_paths += %w[
+  app/models
+]
+
+# Establish connection with database
+ActiveRecord::Base.configurations = YAML.load(ERB.new(File.read('./config/database.yml')).result)
+ActiveRecord::Base.establish_connection ENV['RAILS_ENV'].to_sym
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+
+# Load initializers
+Dir['./config/initializers/**/*.rb'].each do |file|
+  require file
+end
+
+IRB.start
