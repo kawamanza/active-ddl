@@ -11,9 +11,15 @@ Bundler.setup(:default, ENV['RAILS_ENV'])
 Bundler.require
 
 # Set autoloading directories
-ActiveSupport::Dependencies.autoload_paths += %w[
-  app/models
-]
+Zeitwerk::Loader.new.tap do |loader|
+  ActiveSupport::Dependencies.autoload_paths += %w[
+    app/models
+  ]
+  ActiveSupport::Dependencies.autoload_paths.each do |path|
+    loader.push_dir path
+  end
+  loader.setup
+end
 
 # Establish connection with database
 ActiveRecord::Base.configurations = YAML.load(ERB.new(File.read('./config/database.yml')).result)

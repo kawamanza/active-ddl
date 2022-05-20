@@ -18,6 +18,7 @@ GEM
     sqlite3 (1.4.2)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    zeitwerk (2.5.4)
 
 PLATFORMS
   x86_64-linux-musl
@@ -26,6 +27,7 @@ DEPENDENCIES
   activerecord (~> 7.0.3)
   activesupport
   sqlite3
+  zeitwerk (~> 2.5.4)
 
 BUNDLED WITH
    2.3.7
